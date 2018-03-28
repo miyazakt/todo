@@ -3,7 +3,8 @@
     <div class="input-form">
       <input class="form-control" type="text" v-model="todoTitle" placeholder="やること" />
       <textarea rows="10" class="form-control" v-model="todoContent"></textarea>
-      <input class="form-control" type="datetime-local" v-model="todoDeadline" />
+      <input class="form-control" type="date" v-model="todoDate" />
+      <input class="form-control" type="time" v-model="todoTime" />
       <button class="form-control" @click="add()">追加</button>
     </div>
     <ol>
@@ -18,19 +19,38 @@ import Todo from './Todo'
 export default {
   name: 'TodoList',
   data () {
+    let date = new Date()
+    var zerofill = function (val) {
+      if (val.toString().length === 1) {
+        return `0${val}`
+      }
+      return val
+    }
+    let year = date.getFullYear()
+    let month = zerofill(date.getMonth() + 1)
+    let day = zerofill(date.getDate())
+
     return {
       todoTitle: '',
       todoContent: '',
-      todoDeadline: new Date(),
+      todoDeadline: "",
+      todoDate: `${year}-${month}-${day}`,
+      todoTime: `12:00`,
       todos: []
     }
   },
   mounted () {
-    this.todos = JSON.parse(localStorage.getItem('todos')) || []
+    let todos = JSON.parse(localStorage.getItem('todos')) || []
+    console.log('hoge')
+    this.todos = todos.map((todo) => {
+      todo.deadline = new Date(todo.deadline)
+      return todo
+    })
   },
   methods: {
     add () {
       let todo = this.createTodo(this)
+      todo.deadline = new Date(this.todoDate+" "+this.todoTime)
       this.todos.push(todo)
       this.clearTodo()
       this.setItem()
@@ -63,7 +83,10 @@ export default {
 }
 .form-control {
   display: block;
-  margin: 3px;
+  margin: 7px auto;
   width: 95%;
+}
+ol {
+  padding: 0;
 }
 </style>
