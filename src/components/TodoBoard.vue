@@ -33,7 +33,7 @@ export default {
     return {
       todoTitle: '',
       todoContent: '',
-      todoDeadline: "",
+      todoDeadline: '',
       todoDate: `${year}-${month}-${day}`,
       todoTime: `12:00`,
       todos: []
@@ -50,7 +50,7 @@ export default {
   methods: {
     add () {
       let todo = this.createTodo(this)
-      todo.deadline = new Date(this.todoDate+" "+this.todoTime)
+      todo.deadline = new Date(this.todoDate + ' ' + this.todoTime)
       this.todos.push(todo)
       this.clearTodo()
       this.setItem()

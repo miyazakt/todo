@@ -33,7 +33,7 @@ export default {
         if (val.toString().length === 1) {
           return `0${val}`
         }
-        return "" + val
+        return '' + val
       }
       let date = this.todo.deadline
       if (Object.prototype.toString.call(date) !== '[object Date]') {
